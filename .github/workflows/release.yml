@@ -1,0 +1,124 @@
+name: Release
+
+# Tag-driven publish gate. Mirrors every quality check from ci.yml so a tag
+# push cannot ship a broken artifact: a green CI run on `main` is necessary
+# but not sufficient — a tag could point at a different commit, or a hand-pushed
+# tag could bypass PR review entirely. We re-run the full gauntlet against the
+# tagged ref before `npm publish` runs.
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  verify:
+    name: Re-run full CI on tagged ref
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Audit (production deps must be 0 vulnerabilities)
+        run: npm run audit:prod
+
+      - name: Audit (full tree, dev-only allowlist enforced)
+        run: npm run audit:full
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test with coverage
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify plugin output (strapi-plugin verify)
+        run: npm run verify
+
+      - name: Pack tarball
+        run: npm pack --silent
+
+      - name: Verify npm pack contents
+        run: |
+          set -euo pipefail
+          TGZ=$(ls strapi-plugin-narration-*.tgz | tail -1)
+          echo "Tarball: $TGZ"
+          tar -tzf "$TGZ" | sort | tee pack-list.txt
+          python3 << 'PY'
+          import glob
+          import tarfile
+
+          packs = sorted(glob.glob("strapi-plugin-narration-*.tgz"))
+          assert packs, "no .tgz produced"
+          path = packs[-1]
+          with tarfile.open(path, "r:gz") as tf:
+              names = [m.name for m in tf.getmembers() if m.isfile()]
+
+          forbidden = [n for n in names if ".test." in n or n.endswith(".spec.ts")]
+          assert not forbidden, f"tests in pack: {forbidden}"
+
+          required = {
+              "package/package.json",
+              "package/README.md",
+              "package/LICENSE",
+          }
+          missing = required - set(names)
+          assert not missing, f"missing: {missing}"
+
+          dist_files = [n for n in names if n.startswith("package/dist/")]
+          assert dist_files, "no package/dist/ in tarball"
+
+          stale_chunks = [n for n in names if n.startswith("package/dist/_chunks/")]
+          assert not stale_chunks, (
+              f"stale dist/_chunks/* in pack ({len(stale_chunks)} files); "
+              "prebuild clean step is broken"
+          )
+
+          print("npm pack OK")
+          PY
+
+  publish:
+    name: Publish to npm with provenance
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22.x"
+          registry-url: https://registry.npmjs.org
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build
+
+      - name: Publish to npm
+        run: npm publish --provenance --access public
+        env:
+          # `--provenance` uses the OIDC token from `id-token: write`. Trusted
+          # publishing on npmjs.com is preferred (drop NODE_AUTH_TOKEN once the
+          # npm package is configured for it); for now the legacy automation
+          # token is the fallback so the workflow keeps working until the
+          # trusted publisher is set up.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

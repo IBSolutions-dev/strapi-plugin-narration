@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Narration">
+  <!-- White mark on black rounded square; aligns with .github/assets/logo.png -->
+  <rect width="512" height="512" rx="112" fill="#000" />
+  <path
+    fill="#fff"
+    d="M104 368V160h56l92 136V160h44v208h-54l-94-136v136H104z"
+  />
+  <g fill="none" stroke="#fff" stroke-width="28" stroke-linecap="round">
+    <path d="M284 384 Q 432 256 284 128" />
+    <path d="M304 362 Q 408 256 304 150" />
+    <path d="M324 340 Q 386 256 324 172" />
+  </g>
+</svg>

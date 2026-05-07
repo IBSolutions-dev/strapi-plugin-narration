@@ -1,0 +1,55 @@
+name: Bug report
+description: Something is broken or behaves unexpectedly
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. The plugin is currently in **public beta** on the `0.x` channel — feedback is exactly what this phase is for. Please search [existing issues](https://github.com/IBSolutions-dev/strapi-plugin-narration/issues) first and check [`CHANGELOG.md`](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CHANGELOG.md) in case you're hitting a documented `0.x` breaking change between minors.
+
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      description: From package.json or `npm ls strapi-plugin-narration`
+      placeholder: e.g. 0.9.0
+    validations:
+      required: true
+
+  - type: input
+    id: strapi
+    attributes:
+      label: Strapi version
+      placeholder: e.g. 5.37.1
+    validations:
+      required: true
+
+  - type: input
+    id: node
+    attributes:
+      label: Node.js version
+      placeholder: e.g. 22.x
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps (config snippets, API calls) help a lot.
+    validations:
+      required: true

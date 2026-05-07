@@ -1,0 +1,311 @@
+{
+  // Full dependency-tree audit configuration for CI.
+  // Runtime dependencies are checked separately with `npm audit --omit=dev`.
+  // Entries below are development-tool advisories that do not ship in the npm
+  // package because published files are limited by `package.json#files`.
+  "$schema": "https://github.com/IBM/audit-ci/raw/main/docs/schema.json",
+  "moderate": true,
+  "report-type": "summary",
+  "show-found": true,
+  "show-not-found": true,
+  "allowlist": [
+    // --- Build tooling: @strapi/sdk-plugin → @strapi/pack-up → vite/esbuild/@rushstack
+    {
+      "GHSA-2g4f-4pwh-qvx6": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "ajv ReDoS via $data option. Comes from @rushstack/node-core-library used by @strapi/sdk-plugin build tooling. Build-time only; not in dist/.",
+      },
+    },
+    {
+      "GHSA-67mh-4wv8-2f99": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "esbuild dev-server CORS (Access-Control-Allow-Origin: *). Local dev tooling only; bundled output does not include esbuild.",
+      },
+    },
+    {
+      "GHSA-4w7w-66w2-5vf9": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "Vite path traversal in optimized deps .map handling. Dev server only via @strapi/pack-up; production bundles are built without exposing the Vite dev server.",
+      },
+    },
+    // --- Strapi runtime tree (devDep here, host-app responsibility at runtime)
+    {
+      "GHSA-2mjp-6q6p-2qxm": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "undici HTTP request/response smuggling — pinned by @strapi/core to an older 6.x. Plugin's own runtime undici (^6.24.1) resolves to the patched line; npm audit --omit=dev confirms 0 advisories on the prod tree.",
+      },
+    },
+    {
+      "GHSA-4992-7rv2-5pvq": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "undici CRLF injection via `upgrade` option. Same source as GHSA-2mjp-6q6p-2qxm: @strapi/core's pinned undici. Plugin runtime undici is unaffected.",
+      },
+    },
+    {
+      "GHSA-f269-vfmq-vjvj": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "undici WebSocket 64-bit length overflow. Plugin does not use WebSockets and the host app's undici (not this devDep copy) governs runtime.",
+      },
+    },
+    {
+      "GHSA-v9p9-hfj2-hcw8": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "undici unhandled exception in WebSocket client. Same scope as the other undici advisories; not reachable from plugin runtime.",
+      },
+    },
+    {
+      "GHSA-vrm6-8vpv-qv8q": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "undici unbounded memory in WebSocket permessage-deflate. Same scope as the other undici advisories.",
+      },
+    },
+    {
+      "GHSA-7gcc-r8m5-44qm": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "Koa Host Header Injection via ctx.hostname. Lives in @strapi/strapi's Koa stack used at dev time; consumers' production Koa is governed by their own host Strapi install.",
+      },
+    },
+    {
+      "GHSA-9ppj-qmqm-q256": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "node-tar symlink path traversal. Dev tree via @strapi/cloud-cli (Strapi Cloud deployment helper) — not used by this plugin or its runtime.",
+      },
+    },
+    {
+      "GHSA-qffp-2rhf-9h96": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "node-tar hardlink path traversal. Same source as GHSA-9ppj-qmqm-q256: @strapi/cloud-cli.",
+      },
+    },
+    // --- Strapi admin design-system (lodash@4 — no fix in 4.x line)
+    {
+      "GHSA-r5fr-rjxr-66jc": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "lodash _.template code injection. Lives in @strapi/admin/@strapi/design-system devDep. Plugin source does not call _.template; consumers receive lodash from their own Strapi install.",
+      },
+    },
+    {
+      "GHSA-f23m-r3pf-42rh": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "lodash prototype pollution in _.unset/_.omit. Same source as GHSA-r5fr-rjxr-66jc.",
+      },
+    },
+    {
+      "GHSA-xxjr-mmjv-4gpg": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "lodash prototype pollution (additional advisory) in _.unset/_.omit. Same source.",
+      },
+    },
+    // --- Markdown / template rendering in Strapi development dependencies
+    {
+      "GHSA-2qvq-rjwj-gvw9": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars prototype pollution leading to XSS via partial template injection. Pulled into the Strapi admin asset pipeline used at build time only. Plugin does not render handlebars templates.",
+      },
+    },
+    {
+      "GHSA-2w6w-674q-4c4q": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars JS injection via AST type confusion. Same scope as GHSA-2qvq-rjwj-gvw9.",
+      },
+    },
+    {
+      "GHSA-3mfm-83xf-c92r": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars JS injection via AST type confusion (@partial-block tampering). Same scope.",
+      },
+    },
+    {
+      "GHSA-7rx3-28cr-v5wh": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars prototype method access control gap. Same scope.",
+      },
+    },
+    {
+      "GHSA-9cx6-37pm-9jff": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars DoS via malformed decorator syntax. Same scope.",
+      },
+    },
+    {
+      "GHSA-xhpv-hc6g-r9c6": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars JS injection via AST type confusion (object payload). Same scope.",
+      },
+    },
+    {
+      "GHSA-xjpj-3mr7-gcpf": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "handlebars JS injection in CLI Precompiler. CLI not used by this plugin.",
+      },
+    },
+    {
+      "GHSA-38c4-r59v-3vqw": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "markdown-it ReDoS. Pulled into @strapi/strapi for admin docs rendering. Not invoked by this plugin's runtime code.",
+      },
+    },
+    // --- HTTP client (axios) inside @strapi/strapi telemetry/cloud helpers
+    {
+      "GHSA-3p68-rc4w-qgx5": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios NO_PROXY hostname normalization bypass leading to SSRF. Pulled by @strapi/strapi telemetry/cloud. This plugin uses undici directly, not axios, for outbound TTS calls.",
+      },
+    },
+    {
+      "GHSA-fvcv-3m26-pcqx": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios cloud metadata exfiltration via header injection. Same scope as GHSA-3p68-rc4w-qgx5.",
+      },
+    },
+    // The next 12 axios advisories are all routed through @strapi/admin's
+    // devDep axios. Same scope/rationale as GHSA-3p68-rc4w-qgx5 above:
+    // build-time only, Strapi development dependency, this plugin's outbound TTS uses
+    // undici directly (see server/src/utils/elevenlabs-sdk-fetch.ts).
+    // Re-review on the shared 2026-10-31 expiry.
+    {
+      "GHSA-3w6x-2g7m-8v23": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios prototype pollution in parseReviver (response tampering). @strapi/admin devDep; not in dist/.",
+      },
+    },
+    {
+      "GHSA-445q-vr5w-6q77": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios CRLF injection in multipart blob.type. @strapi/admin devDep; this plugin uses undici, not axios, for HTTPS.",
+      },
+    },
+    {
+      "GHSA-5c9x-8gcm-mpgx": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios HTTP adapter streamed uploads bypass maxBodyLength. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-62hf-57xw-28j9": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios DoS via unbounded recursion in toFormData. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-6chq-wfr3-2hj9": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios header injection via prototype pollution. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-m7pr-hjqh-92cm": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios no_proxy bypass via IP alias (SSRF). @strapi/admin devDep; same scope as GHSA-3p68-rc4w-qgx5.",
+      },
+    },
+    {
+      "GHSA-pf86-5x62-jrwf": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios prototype pollution gadgets — response tampering / hijacking. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-pmwg-cvhr-8vh7": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios NO_PROXY 127.0.0.0/8 loopback bypass (incomplete fix for CVE-2025-62718). @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-q8qp-cvcw-x6jj": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios prototype pollution read-side gadgets in HTTP adapter. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-vf2m-468p-8v99": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios HTTP adapter streamed responses bypass maxContentLength. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-w9j2-pvgh-6h63": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios authentication bypass via prototype pollution gadget in validateStatus. @strapi/admin devDep; same scope.",
+      },
+    },
+    {
+      "GHSA-xx6v-rp6x-q39c": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "axios XSRF token cross-origin leakage via prototype pollution. @strapi/admin devDep; same scope.",
+      },
+    },
+    // --- Misc transitives
+    {
+      "GHSA-23c5-xmqv-rm74": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "minimatch ReDoS (nested *() extglobs). Reachable only through Strapi build-time globbing of admin source files; not in dist/.",
+      },
+    },
+    {
+      "GHSA-7r86-cg39-jmmj": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "minimatch ReDoS (matchOne combinatorial backtracking). Same scope as GHSA-23c5-xmqv-rm74.",
+      },
+    },
+    {
+      "GHSA-5v7r-6r5c-r473": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "file-type infinite loop in ASF parser. Reaches the dev tree through Strapi upload packages; this plugin only writes generated MP3 audio to the Media Library.",
+      },
+    },
+    {
+      "GHSA-j47w-4g3g-c36v": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "file-type ZIP decompression bomb DoS. Same scope as GHSA-5v7r-6r5c-r473.",
+      },
+    },
+    {
+      "GHSA-52f5-9888-hmc6": {
+        "active": false,
+        "expiry": "2026-10-31",
+        "notes": "Previously: tmp arbitrary temp file/dir write via symlink path. Resolved by the @strapi/sdk-plugin v6 upgrade — kept as inactive history until 2026-10-31 cleanup pass so the audit log stays explainable.",
+      },
+    },
+  ],
+}

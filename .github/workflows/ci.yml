@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Audit (production deps must be 0 vulnerabilities)
+        run: npm run audit:prod
+
+      - name: Audit (full tree, dev-only allowlist enforced)
+        run: npm run audit:full
+
+      - name: Format
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test with coverage
+        run: npm run test:coverage
+
+      - name: Build
+        run: npm run build
+
+      - name: Verify plugin output (strapi-plugin verify)
+        run: npm run verify
+
+      - name: Pack tarball
+        run: npm pack --silent
+
+      - name: Verify npm pack contents
+        run: |
+          set -euo pipefail
+          TGZ=$(ls strapi-plugin-narration-*.tgz | tail -1)
+          echo "Tarball: $TGZ"
+          tar -tzf "$TGZ" | sort | tee pack-list.txt
+          python3 << 'PY'
+          import glob
+          import tarfile
+
+          packs = sorted(glob.glob("strapi-plugin-narration-*.tgz"))
+          assert packs, "no .tgz produced"
+          path = packs[-1]
+          with tarfile.open(path, "r:gz") as tf:
+              names = [m.name for m in tf.getmembers() if m.isfile()]
+
+          forbidden = [n for n in names if ".test." in n or n.endswith(".spec.ts")]
+          assert not forbidden, f"tests in pack: {forbidden}"
+
+          required = {
+              "package/package.json",
+              "package/README.md",
+              "package/LICENSE",
+          }
+          missing = required - set(names)
+          assert not missing, f"missing: {missing}"
+
+          dist_files = [n for n in names if n.startswith("package/dist/")]
+          assert dist_files, "no package/dist/ in tarball"
+
+          # Stale-build guard: dist/_chunks/ is from an older @strapi/sdk-plugin
+          # output convention. The current build emits to dist/admin/ and the
+          # exports map only references dist/admin/* + dist/server/*, so any
+          # dist/_chunks/* in the tarball means the prebuild clean step regressed
+          # and shipped duplicate admin bundles.
+          stale_chunks = [n for n in names if n.startswith("package/dist/_chunks/")]
+          assert not stale_chunks, (
+              f"stale dist/_chunks/* in pack ({len(stale_chunks)} files); "
+              "prebuild clean step is broken"
+          )
+
+          print("npm pack OK")
+          PY
