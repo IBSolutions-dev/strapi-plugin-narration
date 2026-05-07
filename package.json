@@ -83,7 +83,7 @@
     "undici": "^6.24.1"
   },
   "devDependencies": {
-    "@strapi/admin": "5.37.1",
+    "@strapi/admin": "5.45.0",
     "@strapi/design-system": "2.1.2",
     "@strapi/icons": "2.1.2",
     "@strapi/sdk-plugin": "^6.1.0",
