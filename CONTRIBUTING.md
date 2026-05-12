@@ -24,6 +24,14 @@ npm run typecheck
 npm run test:coverage
 ```
 
+Maintainers cutting a release should also run the CI-aligned gate (runs **`npm ci`**, production + full-tree audits, the checks above, **`build`**, **`verify`**, **`npm pack`**, then tarball asserts):
+
+```bash
+npm run release:preflight
+```
+
+Implementation: **[`scripts/release-preflight.sh`](./scripts/release-preflight.sh)** and **[`scripts/verify-npm-pack.py`](./scripts/verify-npm-pack.py)** (same npm-pack assertions as **[`.github/workflows/ci.yml`](./.github/workflows/ci.yml)**).
+
 Build the plugin (admin + server bundles):
 
 ```bash

@@ -11,9 +11,9 @@
 
 **Package:** [`strapi-plugin-narration`](https://www.npmjs.com/package/strapi-plugin-narration) · **Repository:** [github.com/IBSolutions-dev/strapi-plugin-narration](https://github.com/IBSolutions-dev/strapi-plugin-narration)
 
-Add a **Generate narration** button to any Strapi entry. Pick a voice, click once, and the plugin turns the entry's text into an MP3, drops it into the **Media Library**, and remembers which voice and audio file belong to that entry.
+Turn any Strapi entry into a listenable MP3 without leaving the CMS. Pick a voice, click **Generate narration**, and the plugin synthesizes the entry's text, drops the audio into the **Media Library**, and links the voice and file back to the entry.
 
-Useful for podcasts, blog audio summaries, accessibility narration, audio descriptions for visitors who prefer to listen — anywhere you want hands-free reading without exporting and re-uploading manually.
+Useful for podcast versions of articles, audio summaries on blog posts, accessibility narration, and audio descriptions for visitors who prefer to listen. Anywhere reading aloud belongs in the editorial workflow rather than a separate production track.
 
 <a id="beta-status"></a>
 
@@ -43,46 +43,27 @@ Useful for podcasts, blog audio summaries, accessibility narration, audio descri
 
 ---
 
-## What you'll need
+## Requirements
 
-| Requirement        | Notes                                                            |
-| ------------------ | ---------------------------------------------------------------- |
-| Strapi             | **v5** (`^5.0.0`)                                                |
-| Node.js            | `>=20.0.0 <=24.x.x`                                              |
-| ElevenLabs account | Free tier is fine for testing; a paid plan for production volume |
-
-You will create one **ElevenLabs API key** during installation. Plan for about 5 minutes total.
-
----
+| Requirement    | Details                                                                                                                  |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| **Strapi**     | **v5** (`^5.0.0`)                                                                                                        |
+| **Node.js**    | `>=20.0.0` `<=24.x.x`                                                                                                    |
+| **ElevenLabs** | Account + [API key](https://elevenlabs.io/app/developers/api-keys) with **Text to Speech** and **Voices → Read** enabled |
 
 ## Install
 
-The four steps below are in the order you should do them. Don't skip ahead — step 3 needs the key from step 1.
+1. **API key** — [ElevenLabs → Developers → API keys](https://elevenlabs.io/app/developers/api-keys): create a key with **Text to Speech** and **Voices → Read** (both required for generation and the voice list in admin).
 
-### 1. Create an ElevenLabs API key
-
-1. Go to [ElevenLabs → Developers → API keys](https://elevenlabs.io/app/developers/api-keys).
-2. Click **Create API key**.
-3. Under **Access**, enable **both**:
-   - **Text to Speech** — needed to generate audio.
-   - **Voices → Read** — needed to list voices in the admin UI.
-4. Copy the key somewhere safe. You'll paste it into `.env` in step 3.
-
-### 2. Install the package
-
-In your Strapi project folder, run:
+2. **Package** — in your Strapi project root:
 
 ```bash
-npm install strapi-plugin-narration@0.9.0
+npm install strapi-plugin-narration@0.10.0
 ```
 
-> **Beta:** during the `0.x` series, install an **exact** version (no `^`) and re-read [`CHANGELOG.md`](./CHANGELOG.md) before each upgrade — minor bumps may include intentional breaking changes. After `1.0.0` lands you can switch to a normal caret range.
->
-> **Peer deps:** `@strapi/design-system`, `@strapi/icons`, `react-intl`, and `yup` must resolve from **your Strapi version** — a normal `@strapi/strapi` install already satisfies them (`npm ls @strapi/design-system`). Installing a mismatched standalone copy alongside the plugin risks duplicate stacks and runtime errors such as **`useContext` on null** when opening Content Manager entries.
+> **Beta (`0.x`):** use a **pinned** version (no `^`). Check [`CHANGELOG.md`](./CHANGELOG.md) before upgrading. `@strapi/design-system`, `@strapi/icons`, `react-intl`, and `yup` must match your Strapi install—avoid installing duplicate copies manually.
 
-### 3. Wire it into Strapi
-
-Open (or create) `config/plugins.ts` in your Strapi project and add the `narration` block:
+3. **`config/plugins.ts`** (or `plugins.js` — omit TypeScript type syntax if using `.js`):
 
 ```typescript
 export default ({ env }) => ({
@@ -96,22 +77,20 @@ export default ({ env }) => ({
 });
 ```
 
-> Using JavaScript instead of TypeScript? The same content works in `config/plugins.js` — drop the `: ` after `env`.
-
-Then add the API key from step 1 to your project's `.env` file:
+**.env:**
 
 ```bash
-ELEVENLABS_API_KEY=sk_paste_your_key_here
+ELEVENLABS_API_KEY=sk_your_key_here
 ```
 
-### 4. Rebuild the admin and start Strapi
+4. **Build & start**
 
 ```bash
 npm run build
 npm run develop
 ```
 
-Open the admin and go to **Settings → Plugins**. You should see **Narration** in the list. If you do, you're done — the plugin is installed.
+In admin: **Settings → Plugins → Narration** should appear.
 
 ---
 
@@ -205,7 +184,7 @@ Grant your **Content API** token permission to **`find` / `findOne` on `upload`*
 
 ## Advanced configuration
 
-The minimum config in step 3 of Install is enough for most projects. If you need to tune behaviour, the full set of options lives in `config/plugins.ts`:
+The default `config` block in [Install](#install) is usually enough. If you need to tune behaviour, the full set of options lives in `config/plugins.ts`:
 
 ```typescript
 narration: {

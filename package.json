@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-narration",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Narration for Strapi 5 (beta) — custom field + generate TTS audio into the Media Library (pluggable providers; ElevenLabs supported)",
   "keywords": [
     "strapi",
@@ -74,6 +74,7 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc -p server/tsconfig.build.json --noEmit && tsc -p admin/tsconfig.build.json --noEmit",
+    "release:preflight": "bash scripts/release-preflight.sh",
     "verify": "strapi-plugin verify",
     "watch": "strapi-plugin watch"
   },

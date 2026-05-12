@@ -301,6 +301,20 @@
       },
     },
     {
+      "GHSA-q3j6-qgpj-74h6": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "fast-uri issue on the dev dependency chain `@strapi/strapi` → `@strapi/database` → `ajv` → `fast-uri`. Used while developing/testing against Strapi 5; not shipped in the published plugin tarball (`package.json#files`).",
+      },
+    },
+    {
+      "GHSA-v39h-62p7-jpjc": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "fast-uri advisory on the same ajv transitive chain as GHSA-q3j6-qgpj-74h6.",
+      },
+    },
+    {
       "GHSA-52f5-9888-hmc6": {
         "active": false,
         "expiry": "2026-10-31",

@@ -12,7 +12,19 @@ frozen on the first stable **`1.0.0`** release.
 
 ## Unreleased
 
-Changes after **`0.9.0`** will be recorded here.
+Changes after **`0.10.0`** will be recorded here until the next dated release.
+
+## 0.10.0 - 2026-05-11
+
+Documentation, maintainer tooling, CI alignment, and audit-policy housekeeping for the **`0.x`** beta line.
+
+- **Docs**: README refresh — clearer positioning copy; tighter **Requirements** table;
+  condensed **Install** (ElevenLabs key scopes for **Text to Speech** and **Voices → Read**,
+  pinned **`0.x`** guidance, `plugins.ts` / `plugins.js` note); cross-links adjusted for advanced config.
+- **Repo**: GitHub logo **`logo.png`** updated; redundant **`logo.svg`** removed.
+- **Maintenance**: `.gitignore` — ignore **`.cursor/`** for local Cursor IDE metadata.
+- **Maintainers**: **`npm run release:preflight`** (**[`scripts/release-preflight.sh`](./scripts/release-preflight.sh)**) runs CI-aligned gates locally; **`scripts/verify-npm-pack.py`** shares tarball asserts with GitHub Actions.
+- **Maintenance**: **`audit-ci`** allowlist extended for transitive **fast-uri** advisories (**GHSA-q3j6-qgpj-74h6**, **GHSA-v39h-62p7-jpjc**) on the Strapi → **ajv** dev dependency chain so **`npm run audit:full`** stays green after npm advisory refreshes.
 
 ## 0.9.0 - 2026-05-07 — Public Beta
 
