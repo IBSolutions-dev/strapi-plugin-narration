@@ -86,7 +86,7 @@
   "devDependencies": {
     "@strapi/admin": "5.37.1",
     "@strapi/design-system": "2.1.2",
-    "@strapi/icons": "2.1.2",
+    "@strapi/icons": "2.2.0",
     "@strapi/sdk-plugin": "^6.1.0",
     "@strapi/strapi": "5.37.1",
     "@strapi/typescript-utils": "5.37.1",
