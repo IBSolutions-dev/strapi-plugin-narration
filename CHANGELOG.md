@@ -12,7 +12,15 @@ frozen on the first stable **`1.0.0`** release.
 
 ## Unreleased
 
-Changes after **`0.10.0`** will be recorded here until the next dated release.
+Changes after **`0.10.1`** will be recorded here until the next dated release.
+
+## 0.10.1 - 2026-05-18
+
+Documentation fix for Strapi Marketplace and other README consumers that render copy off-repo.
+
+- **Docs**: README images use `raw.githubusercontent.com/.../main/.github/assets/...`; repository doc links use absolute `github.com/.../blob/main/...` URLs so the Marketplace store page (generated from README) loads screenshots and cross-links correctly. GitHub README rendering is unchanged.
+- **Docs**: README footer CTA (“Want help with Strapi…”) linking to [IB Solutions contact](https://ibsolutions.dev/contact).
+- **Maintenance**: **`audit-ci`** allowlist extended for **sanitize-html** advisory **GHSA-rpr9-rxv7-x643** on the `@strapi/admin` / `@strapi/content-manager` dev dependency chain so **`npm run audit:full`** stays green after npm advisory refreshes.
 
 ## 0.10.0 - 2026-05-11
 

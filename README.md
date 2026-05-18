@@ -1,12 +1,12 @@
 <p align="center">
-  <img src=".github/assets/logo.png" alt="strapi-plugin-narration logo" width="120" />
+  <img src="https://raw.githubusercontent.com/IBSolutions-dev/strapi-plugin-narration/main/.github/assets/logo.png" alt="strapi-plugin-narration logo" width="120" />
 </p>
 
 # Narration for Strapi 5
 
 [![npm](https://img.shields.io/npm/v/strapi-plugin-narration.svg)](https://www.npmjs.com/package/strapi-plugin-narration)
-[![status: beta](https://img.shields.io/badge/status-beta-orange.svg)](#beta-status)
-[![license](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![status: beta](https://img.shields.io/badge/status-beta-orange.svg)](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/README.md#beta-status)
+[![license](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/LICENSE)
 [![CI](https://github.com/IBSolutions-dev/strapi-plugin-narration/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/IBSolutions-dev/strapi-plugin-narration/actions/workflows/ci.yml?query=branch%3Amain+event%3Apush)
 
 **Package:** [`strapi-plugin-narration`](https://www.npmjs.com/package/strapi-plugin-narration) · **Repository:** [github.com/IBSolutions-dev/strapi-plugin-narration](https://github.com/IBSolutions-dev/strapi-plugin-narration)
@@ -26,19 +26,19 @@ Useful for podcast versions of articles, audio summaries on blog posts, accessib
 **Plugin home** — Settings → Plugins → **Narration**: connect ElevenLabs, run a quick TTS test, and open usage analytics.
 
 <p align="center">
-  <img src=".github/assets/strapi-plugin-narration--plugin-page.png" alt="Narration plugin settings page showing ElevenLabs tab with Connection checklist, Narration test, and Usage sections" width="840" />
+  <img src="https://raw.githubusercontent.com/IBSolutions-dev/strapi-plugin-narration/main/.github/assets/strapi-plugin-narration--plugin-page.png" alt="Narration plugin settings page showing ElevenLabs tab with Connection checklist, Narration test, and Usage sections" width="840" />
 </p>
 
 **Configure the narration field** — Content-Type Builder **Basic settings**: field name, **Narration sources** order, and **Default voice**.
 
 <p align="center">
-  <img src=".github/assets/strapi-plugin-narration--custom-field-configure.png" alt="Content-Type Builder Add Narration field modal — Basic settings with narration sources and default voice" width="840" />
+  <img src="https://raw.githubusercontent.com/IBSolutions-dev/strapi-plugin-narration/main/.github/assets/strapi-plugin-narration--custom-field-configure.png" alt="Content-Type Builder Add Narration field modal — Basic settings with narration sources and default voice" width="840" />
 </p>
 
 **Generate narration** — On an entry: pick a voice (or keep the default), then **Generate narration**; playback and disconnect controls appear after audio is linked.
 
 <p align="center">
-  <img src=".github/assets/strapi-plugin-narration--custom-field-generated.png" alt="Insight entry editor with Narration field showing connected MP3, voice selector, and Generate narration button" width="840" />
+  <img src="https://raw.githubusercontent.com/IBSolutions-dev/strapi-plugin-narration/main/.github/assets/strapi-plugin-narration--custom-field-generated.png" alt="Insight entry editor with Narration field showing connected MP3, voice selector, and Generate narration button" width="840" />
 </p>
 
 ---
@@ -58,10 +58,10 @@ Useful for podcast versions of articles, audio summaries on blog posts, accessib
 2. **Package** — in your Strapi project root:
 
 ```bash
-npm install strapi-plugin-narration@0.10.0
+npm install strapi-plugin-narration@0.10.1
 ```
 
-> **Beta (`0.x`):** use a **pinned** version (no `^`). Check [`CHANGELOG.md`](./CHANGELOG.md) before upgrading. `@strapi/design-system`, `@strapi/icons`, `react-intl`, and `yup` must match your Strapi install—avoid installing duplicate copies manually.
+> **Beta (`0.x`):** use a **pinned** version (no `^`). Check [`CHANGELOG.md`](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CHANGELOG.md) before upgrading. `@strapi/design-system`, `@strapi/icons`, `react-intl`, and `yup` must match your Strapi install—avoid installing duplicate copies manually.
 
 3. **`config/plugins.ts`** (or `plugins.js` — omit TypeScript type syntax if using `.js`):
 
@@ -184,7 +184,7 @@ Grant your **Content API** token permission to **`find` / `findOne` on `upload`*
 
 ## Advanced configuration
 
-The default `config` block in [Install](#install) is usually enough. If you need to tune behaviour, the full set of options lives in `config/plugins.ts`:
+The default `config` block in [Install](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/README.md#install) is usually enough. If you need to tune behaviour, the full set of options lives in `config/plugins.ts`:
 
 ```typescript
 narration: {
@@ -259,24 +259,32 @@ Strapi's Content-Type Builder renders that for every custom field. The plugin do
 ### Narration works in admin but missing on the site / Content API
 
 - If your content type uses **Draft & Publish**, generate and **save**, then click **Publish** (or publish again after changes). Publication updates the live document your website or **`status=published`** REST queries use; a **draft** may still omit or lag the narration field until you publish.
-- Confirm your frontend asks for **published** entries (see the **`status`** pattern in [**Using narration on your frontend (REST)**](#using-narration-on-your-frontend-rest) above).
+- Confirm your frontend asks for **published** entries (see the **`status`** pattern in [**Using narration on your frontend (REST)**](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/README.md#using-narration-on-your-frontend-rest) above).
 
 ---
 
 ## More documentation
 
-- [Roadmap](./ROADMAP.md) — planned directions and backlog (informal).
-- [Security policy](./SECURITY.md) — how to report vulnerabilities.
-- [Changelog](./CHANGELOG.md) — what changed and when.
-- [Contributing](./CONTRIBUTING.md) — for pull requests and bug reports.
-- [Code of Conduct](./CODE_OF_CONDUCT.md) — repository behaviour.
+- [Roadmap](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/ROADMAP.md) — planned directions and backlog (informal).
+- [Security policy](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/SECURITY.md) — how to report vulnerabilities.
+- [Changelog](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CHANGELOG.md) — what changed and when.
+- [Contributing](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CONTRIBUTING.md) — for pull requests and bug reports.
+- [Code of Conduct](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CODE_OF_CONDUCT.md) — repository behaviour.
 
 ---
 
 ## License
 
-MIT — see [LICENSE](./LICENSE).
+MIT — see [LICENSE](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/LICENSE).
 
 ---
 
 Built and maintained by [IB Solutions](https://ibsolutions.dev) — a systems integration consultancy.
+
+---
+
+## Want help with Strapi or integrations like this?
+
+We build the connections between CMS, AI, and the rest of your stack. Plugins like this one come out of that work.
+
+**[Get in touch](https://ibsolutions.dev/contact)**

@@ -167,6 +167,13 @@
         "notes": "markdown-it ReDoS. Pulled into @strapi/strapi for admin docs rendering. Not invoked by this plugin's runtime code.",
       },
     },
+    {
+      "GHSA-rpr9-rxv7-x643": {
+        "active": true,
+        "expiry": "2026-10-31",
+        "notes": "sanitize-html XSS via default `xmp` raw-text passthrough (<=2.17.3). @strapi/admin and @strapi/content-manager pin sanitize-html@2.13.0 in the dev tree only; not shipped in dist/. Runtime sanitization is governed by the host Strapi install.",
+      },
+    },
     // --- HTTP client (axios) inside @strapi/strapi telemetry/cloud helpers
     {
       "GHSA-3p68-rc4w-qgx5": {
