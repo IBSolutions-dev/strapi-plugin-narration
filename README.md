@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IBSolutions-dev/strapi-plugin-narration/main/.github/assets/logo.png" alt="strapi-plugin-narration logo" width="120" />
+  <img src="https://raw.githubusercontent.com/IBSolutions-dev/strapi-plugin-narration/main/.github/assets/logo-readme.png" alt="strapi-plugin-narration logo" width="120" />
 </p>
 
 # Narration for Strapi 5
@@ -58,7 +58,7 @@ Useful for podcast versions of articles, audio summaries on blog posts, accessib
 2. **Package** — in your Strapi project root:
 
 ```bash
-npm install strapi-plugin-narration@0.10.1
+npm install strapi-plugin-narration@0.10.2
 ```
 
 > **Beta (`0.x`):** use a **pinned** version (no `^`). Check [`CHANGELOG.md`](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CHANGELOG.md) before upgrading. `@strapi/design-system`, `@strapi/icons`, `react-intl`, and `yup` must match your Strapi install—avoid installing duplicate copies manually.

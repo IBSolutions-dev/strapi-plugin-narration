@@ -1,6 +1,6 @@
 {
   "name": "strapi-plugin-narration",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Narration for Strapi 5 (beta) — custom field + generate TTS audio into the Media Library (pluggable providers; ElevenLabs supported)",
   "keywords": [
     "strapi",
