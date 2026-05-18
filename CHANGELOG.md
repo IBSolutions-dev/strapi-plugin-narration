@@ -12,7 +12,13 @@ frozen on the first stable **`1.0.0`** release.
 
 ## Unreleased
 
-Changes after **`0.10.2`** will be recorded here until the next dated release.
+Changes after **`0.10.3`** will be recorded here until the next dated release.
+
+## 0.10.3 - 2026-05-18
+
+Documentation fix for Strapi Marketplace README header image.
+
+- **Docs**: Updated **`logo-readme.png`** (wide header artwork) so the Marketplace store page shows a crisp logo when the renderer stretches README images to full column width; GitHub still uses `width="120"` on the same asset.
 
 ## 0.10.2 - 2026-05-18
 

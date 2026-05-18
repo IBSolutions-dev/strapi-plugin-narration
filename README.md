@@ -58,7 +58,7 @@ Useful for podcast versions of articles, audio summaries on blog posts, accessib
 2. **Package** — in your Strapi project root:
 
 ```bash
-npm install strapi-plugin-narration@0.10.2
+npm install strapi-plugin-narration@0.10.3
 ```
 
 > **Beta (`0.x`):** use a **pinned** version (no `^`). Check [`CHANGELOG.md`](https://github.com/IBSolutions-dev/strapi-plugin-narration/blob/main/CHANGELOG.md) before upgrading. `@strapi/design-system`, `@strapi/icons`, `react-intl`, and `yup` must match your Strapi install—avoid installing duplicate copies manually.
